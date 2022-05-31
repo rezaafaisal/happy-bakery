@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happy_bakery/models/recommended.dart';
+import 'package:happy_bakery/detail.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -130,8 +132,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const LandingPage()),
+                      MaterialPageRoute(builder: (context) => LandingPage()),
                     );
                   },
                   child: const Text('Sign In'),
@@ -219,8 +220,8 @@ class LoginScreen extends StatelessWidget {
 class LandingPage extends StatelessWidget {
   // final RecommendedBakery recommend;
 
-  const LandingPage({Key? key}) : super(key: key);
-
+  String tes = '';
+  // const LandingPage({Key? key}) : super(key: key);
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -280,40 +281,51 @@ class LandingPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text('Selected : ', style: TextStyle(fontSize: 12, color: Colors.grey[600]),),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text('Brioche', style: TextStyle(fontSize: 15),),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text('\$22', style: TextStyle(fontSize: 18, color: Color(0xFFFF9D72)),),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.only(top: 10),
+              //   child: Column(
+              //     children: [
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.start,
+              //         children: [
+              //           Container(
+              //             margin: EdgeInsets.symmetric(horizontal: 20),
+              //             child: Text(
+              //               'Selected : ',
+              //               style: TextStyle(
+              //                   fontSize: 12, color: Colors.grey[600]),
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.start,
+              //         children: [
+              //           Container(
+              //             margin: EdgeInsets.symmetric(horizontal: 20),
+              //             child: Text(
+              //               tes,
+              //               style: TextStyle(fontSize: 15),
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.start,
+              //         children: [
+              //           Container(
+              //             margin: EdgeInsets.symmetric(horizontal: 20),
+              //             child: Text(
+              //               '\$22',
+              //               style: TextStyle(
+              //                   fontSize: 18, color: Color(0xFFFF9D72)),
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
                 // margin: EdgeInsets.only(top: 5),
                 child: Column(
@@ -427,7 +439,36 @@ class BakeryList extends StatefulWidget {
 }
 
 class _BakeryListState extends State<BakeryList> {
-  String select = '';
+  String select = 'Test';
+  String prc = '33';
+
+  void status(String select, String price) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Expanded(
+          child: AlertDialog(
+            title: Text('Confirm buy?'),
+            content: Text(select + '\n' + 'Price : ' + price),
+            actions: [
+              FlatButton(
+                textColor: Colors.black,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('CANCEL'),
+              ),
+              FlatButton(
+                textColor: Colors.black,
+                onPressed: () {},
+                child: Text('BUY'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   Widget build(BuildContext context) {
     return Container(
@@ -435,7 +476,12 @@ class _BakeryListState extends State<BakeryList> {
       width: 110,
       child: Expanded(
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Detail(name: widget.name, image: widget.image, price: widget.price))
+            );
+          },
           child: Card(
             shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(9),
@@ -461,7 +507,7 @@ class _BakeryListState extends State<BakeryList> {
                   child: Container(
                     width: double.infinity,
                     child: Text(
-                      widget.price,
+                      '\$'+widget.price,
                       style: TextStyle(
                           color: Color(0xFFFF9D72),
                           fontSize: 16,
